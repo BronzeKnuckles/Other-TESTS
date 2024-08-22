@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dim">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  <title>HTMX and FastAPI</title>
+  <script src="https://unpkg.com/htmx.org@1.4.1"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <!--NAVBAR START-->
+  <div class="container mx-auto">
+
+    <div class="navbar bg-base-100 ">
+
+      <div class="navbar-start">
+
+        <div class="dropdown">
+          <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+          </div>
+          <ul tabindex="0" class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+            <li><a href="{{url_for('popular_filters')}}">Popular Filters</a></li>
+            <li>
+              <a>More</a>
+              <ul class="p-2">
+                <li><a>Other</a></li>
+                <li><a>About</a></li>
+              </ul>
+            </li>
+            <li><a>User Guide</a></li>
+          </ul>
+        </div>
+        <a class="btn btn-link" href="{{url_for('home')}}">
+          <svg width="230" height="60" viewBox="0 0 441 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M2.352 29.424C1.37067 28.9973 0.88 28.2933 0.88 27.312C0.88 26.8427 1.008 26.4373 1.264 26.096C1.52 25.712 1.88267 25.4133 2.352 25.2L36.144 9.456C36.784 10.48 37.104 11.4827 37.104 12.464C37.104 13.232 36.912 13.9147 36.528 14.512C36.144 15.1093 35.568 15.5573 34.8 15.856L9.2 27.312L34.736 38.768C35.4613 39.0667 36.016 39.536 36.4 40.176C36.784 40.816 36.976 41.5413 36.976 42.352C36.976 43.4187 36.6987 44.3787 36.144 45.232L2.352 29.424ZM51.456 46C50.6027 46 49.856 45.7013 49.216 45.104C48.6187 44.464 48.32 43.7173 48.32 42.864V5.616C48.32 2.288 50.3253 0.623997 54.336 0.623997V40.688H73.984C75.4773 40.688 76.6293 41.1573 77.44 42.096C78.2507 42.992 78.656 44.2933 78.656 46H51.456ZM98.5075 46.576C95.9048 46.576 93.5368 46.0853 91.4035 45.104C89.3128 44.1227 87.6702 42.8 86.4755 41.136C85.3235 39.4293 84.7475 37.5307 84.7475 35.44V24.944C84.7475 22.8107 85.3235 20.8693 86.4755 19.12C87.6702 17.3707 89.3128 15.984 91.4035 14.96C93.4942 13.936 95.8622 13.424 98.5075 13.424C101.153 13.424 103.521 13.936 105.612 14.96C107.745 15.984 109.388 17.3707 110.54 19.12C111.734 20.8693 112.332 22.8107 112.332 24.944V35.44C112.332 37.5307 111.734 39.4293 110.54 41.136C109.345 42.8 107.702 44.1227 105.612 45.104C103.521 46.0853 101.153 46.576 98.5075 46.576ZM98.5075 41.776C101.068 41.776 103.094 41.1787 104.588 39.984C106.124 38.7467 106.892 37.1467 106.892 35.184V25.136C106.892 23.088 106.124 21.424 104.588 20.144C103.094 18.864 101.068 18.224 98.5075 18.224C95.9902 18.224 93.9635 18.864 92.4275 20.144C90.8915 21.424 90.1235 23.088 90.1235 25.136V35.184C90.1235 37.1467 90.8702 38.7467 92.3635 39.984C93.8995 41.1787 95.9475 41.776 98.5075 41.776ZM135.361 59.376C133.142 59.376 131.073 59.0133 129.153 58.288C127.233 57.5627 125.718 56.5813 124.609 55.344C123.5 54.1493 122.945 52.848 122.945 51.44C122.945 50.3307 123.308 49.52 124.033 49.008C124.801 48.496 125.825 48.24 127.105 48.24C127.19 50.2453 127.958 51.824 129.409 52.976C130.902 54.1707 132.886 54.768 135.361 54.768C140.822 54.768 143.553 52.1227 143.553 46.832V43.12C144.15 42.608 144.598 42.1387 144.897 41.712L144.705 41.392C143.468 42.7147 141.91 43.8027 140.033 44.656C138.198 45.5093 136.342 45.936 134.465 45.936C130.796 45.936 127.788 44.9333 125.441 42.928C123.137 40.88 121.985 38.192 121.985 34.864V24.56C121.985 22.384 122.518 20.464 123.585 18.8C124.694 17.0933 126.188 15.7707 128.065 14.832C129.985 13.8933 132.097 13.424 134.401 13.424C138.582 13.424 142.081 15.2587 144.897 18.928L145.153 18.672L143.873 17.072C143.873 15.8773 144.278 14.9813 145.089 14.384C145.942 13.744 147.308 13.424 149.185 13.424V46.256C149.185 48.816 148.588 51.0773 147.393 53.04C146.241 55.0453 144.62 56.6027 142.529 57.712C140.438 58.8213 138.049 59.376 135.361 59.376ZM135.489 41.072C137.75 41.072 139.67 40.4747 141.249 39.28C142.828 38.0427 143.617 36.592 143.617 34.928V24.496C143.617 22.7467 142.828 21.2747 141.249 20.08C139.713 18.8853 137.836 18.288 135.617 18.288C133.057 18.288 131.073 18.864 129.665 20.016C128.257 21.1253 127.553 22.7253 127.553 24.816V34.608C127.553 36.6133 128.236 38.192 129.601 39.344C131.009 40.496 132.972 41.072 135.489 41.072ZM166.189 8.624C164.994 8.624 163.992 8.24 163.181 7.472C162.37 6.704 161.965 5.744 161.965 4.592C161.965 3.44 162.37 2.50133 163.181 1.776C163.992 1.008 164.994 0.623997 166.189 0.623997C167.341 0.623997 168.322 1.008 169.133 1.776C169.944 2.50133 170.349 3.44 170.349 4.592C170.349 5.744 169.944 6.704 169.133 7.472C168.322 8.24 167.341 8.624 166.189 8.624ZM163.373 17.52C163.373 16.112 163.821 15.088 164.717 14.448C165.656 13.7653 167.064 13.424 168.941 13.424V42.48C168.941 43.888 168.472 44.9333 167.533 45.616C166.637 46.256 165.25 46.576 163.373 46.576V17.52ZM405.017 45.232C404.463 44.3787 404.185 43.4187 404.185 42.352C404.185 41.5413 404.377 40.816 404.761 40.176C405.145 39.536 405.7 39.0667 406.425 38.768L431.961 27.312L406.361 15.856C405.593 15.5573 405.017 15.1093 404.633 14.512C404.249 13.9147 404.057 13.232 404.057 12.464C404.057 11.4827 404.377 10.48 405.017 9.456L438.809 25.2C439.279 25.4133 439.641 25.712 439.897 26.096C440.153 26.4373 440.281 26.8427 440.281 27.312C440.281 28.2933 439.791 28.9973 438.809 29.424L405.017 45.232Z"
+              fill="#3681C6" />
+            <path
+              d="M199.18 46.576C195.596 46.576 192.481 46.064 189.836 45.04C187.233 44.016 185.249 42.6507 183.884 40.944C182.519 39.2373 181.836 37.4027 181.836 35.44C181.836 33.8187 182.263 32.5813 183.116 31.728C183.969 30.832 185.271 30.384 187.02 30.384C187.02 34.0107 188.108 36.784 190.284 38.704C192.46 40.5813 195.511 41.52 199.436 41.52C203.191 41.52 206.071 40.9013 208.076 39.664C210.081 38.384 211.084 36.5067 211.084 34.032C211.084 32.5387 210.7 31.3227 209.932 30.384C209.207 29.4027 207.948 28.5707 206.156 27.888C204.407 27.1627 201.868 26.4373 198.54 25.712C194.615 24.8587 191.5 23.8773 189.196 22.768C186.892 21.616 185.207 20.2293 184.14 18.608C183.073 16.9867 182.54 14.9813 182.54 12.592C182.54 10.2027 183.201 8.112 184.524 6.32C185.889 4.48533 187.809 3.07733 190.284 2.096C192.759 1.11466 195.639 0.623997 198.924 0.623997C202.039 0.623997 204.812 1.072 207.244 1.968C209.719 2.82133 211.639 4.05866 213.004 5.68C214.412 7.25866 215.116 9.05066 215.116 11.056C215.116 12.2933 214.711 13.2747 213.9 14C213.132 14.6827 211.916 15.024 210.252 15.024C209.783 11.7813 208.631 9.41333 206.796 7.92C205.004 6.42666 202.38 5.68 198.924 5.68C195.596 5.68 193.036 6.27733 191.244 7.472C189.452 8.624 188.556 10.2667 188.556 12.4C188.556 13.8933 188.876 15.1307 189.516 16.112C190.199 17.0507 191.329 17.8613 192.908 18.544C194.529 19.2267 196.791 19.888 199.692 20.528C204.044 21.4667 207.457 22.512 209.932 23.664C212.449 24.816 214.263 26.224 215.372 27.888C216.481 29.552 217.036 31.6 217.036 34.032C217.036 37.9147 215.415 40.9867 212.172 43.248C208.929 45.4667 204.599 46.576 199.18 46.576ZM241.007 46.576C238.405 46.576 236.079 46.1067 234.031 45.168C231.983 44.2293 230.383 42.9067 229.231 41.2C228.122 39.4933 227.567 37.552 227.567 35.376V25.008C227.567 22.7467 228.122 20.7413 229.231 18.992C230.383 17.2427 231.962 15.8773 233.967 14.896C235.973 13.9147 238.277 13.424 240.879 13.424C243.311 13.424 245.466 13.7867 247.343 14.512C249.263 15.1947 250.757 16.176 251.823 17.456C252.89 18.736 253.423 20.1867 253.423 21.808C253.423 22.8747 252.997 23.7493 252.143 24.432C251.333 25.072 250.266 25.3493 248.943 25.264C248.943 23.216 248.197 21.552 246.703 20.272C245.253 18.992 243.354 18.352 241.007 18.352C238.661 18.352 236.762 18.992 235.311 20.272C233.861 21.5093 233.135 23.1307 233.135 25.136V35.12C233.135 37.04 233.882 38.6187 235.375 39.856C236.869 41.0507 238.789 41.648 241.135 41.648C243.482 41.648 245.381 41.008 246.831 39.728C248.325 38.448 249.071 36.8053 249.071 34.8C250.437 34.7147 251.525 34.992 252.335 35.632C253.189 36.2293 253.615 37.0827 253.615 38.192C253.615 39.8133 253.082 41.264 252.015 42.544C250.949 43.824 249.455 44.8267 247.535 45.552C245.615 46.2347 243.439 46.576 241.007 46.576ZM278.686 18.352C276.296 18.352 274.312 19.0773 272.734 20.528C271.155 21.936 270.366 23.664 270.366 25.712V42.48C270.366 43.888 269.896 44.9333 268.958 45.616C268.062 46.256 266.675 46.576 264.798 46.576V18.16C264.798 15.0027 266.59 13.424 270.174 13.424V17.328C269.491 18.0533 269.022 18.6933 268.766 19.248L269.022 19.504C271.752 15.4507 275.166 13.424 279.262 13.424C280.798 13.424 281.971 13.808 282.782 14.576C283.592 15.3013 283.998 16.1973 283.998 17.264C283.998 18.032 283.806 18.7147 283.422 19.312C282.227 18.672 280.648 18.352 278.686 18.352ZM304.564 46.576C301.961 46.576 299.636 46.0853 297.588 45.104C295.54 44.08 293.94 42.6933 292.788 40.944C291.636 39.152 291.06 37.1467 291.06 34.928V25.456C291.06 23.1947 291.657 21.1467 292.852 19.312C294.089 17.4773 295.732 16.048 297.78 15.024C299.871 13.9573 302.132 13.424 304.564 13.424C306.996 13.424 309.215 13.936 311.22 14.96C313.268 15.984 314.868 17.392 316.02 19.184C317.215 20.976 317.812 23.0027 317.812 25.264V29.36C317.812 30.0427 317.556 30.6187 317.044 31.088C316.532 31.5573 315.913 31.792 315.188 31.792H296.5V34.672C296.5 36.848 297.183 38.5973 298.548 39.92C299.956 41.2427 301.961 41.904 304.564 41.904C307.167 41.904 309.151 41.328 310.516 40.176C311.881 39.024 312.564 37.4667 312.564 35.504C313.844 35.4187 314.911 35.6747 315.764 36.272C316.66 36.8267 317.108 37.6587 317.108 38.768C317.108 40.1333 316.511 41.4133 315.316 42.608C314.164 43.8027 312.628 44.7627 310.708 45.488C308.788 46.2133 306.74 46.576 304.564 46.576ZM312.628 27.44V25.264C312.628 23.1307 311.881 21.4027 310.388 20.08C308.937 18.7147 306.996 18.032 304.564 18.032C302.132 18.032 300.169 18.7147 298.676 20.08C297.225 21.4027 296.5 23.1307 296.5 25.264V27.44H312.628ZM341.904 46.576C339.301 46.576 336.976 46.0853 334.928 45.104C332.88 44.08 331.28 42.6933 330.128 40.944C328.976 39.152 328.4 37.1467 328.4 34.928V25.456C328.4 23.1947 328.997 21.1467 330.192 19.312C331.429 17.4773 333.072 16.048 335.12 15.024C337.211 13.9573 339.472 13.424 341.904 13.424C344.336 13.424 346.555 13.936 348.56 14.96C350.608 15.984 352.208 17.392 353.36 19.184C354.555 20.976 355.152 23.0027 355.152 25.264V29.36C355.152 30.0427 354.896 30.6187 354.384 31.088C353.872 31.5573 353.253 31.792 352.528 31.792H333.84V34.672C333.84 36.848 334.523 38.5973 335.888 39.92C337.296 41.2427 339.301 41.904 341.904 41.904C344.507 41.904 346.491 41.328 347.856 40.176C349.221 39.024 349.904 37.4667 349.904 35.504C351.184 35.4187 352.251 35.6747 353.104 36.272C354 36.8267 354.448 37.6587 354.448 38.768C354.448 40.1333 353.851 41.4133 352.656 42.608C351.504 43.8027 349.968 44.7627 348.048 45.488C346.128 46.2133 344.08 46.576 341.904 46.576ZM349.968 27.44V25.264C349.968 23.1307 349.221 21.4027 347.728 20.08C346.277 18.7147 344.336 18.032 341.904 18.032C339.472 18.032 337.509 18.7147 336.016 20.08C334.565 21.4027 333.84 23.1307 333.84 25.264V27.44H349.968ZM366.38 18.16C366.38 15.0027 368.172 13.424 371.756 13.424V17.52C371.372 17.904 370.924 18.48 370.412 19.248L370.668 19.504C371.948 17.712 373.612 16.2613 375.66 15.152C377.708 14 379.927 13.424 382.316 13.424C385.772 13.424 388.503 14.448 390.508 16.496C392.513 18.544 393.516 21.1893 393.516 24.432V42.48C393.516 43.888 393.047 44.9333 392.108 45.616C391.212 46.256 389.825 46.576 387.948 46.576V25.008C387.948 22.96 387.372 21.3387 386.22 20.144C385.068 18.9493 383.319 18.352 380.972 18.352C379.393 18.352 377.9 18.6933 376.492 19.376C375.127 20.016 374.017 20.912 373.164 22.064C372.353 23.1733 371.948 24.3893 371.948 25.712V42.48C371.948 43.888 371.479 44.9333 370.54 45.616C369.644 46.256 368.257 46.576 366.38 46.576V18.16Z"
+              fill="#1FD146" />
+          </svg></a>
+      </div>
+      <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal px-1">
+          <li><a class="text-xl bg-ghost" href="{{url_for('popular_filters')}}">Popular Filters</a></li>
+
+          <li><a class="text-xl">User Guide</a></li>
+          <li>
+            <details>
+              <summary class="text-xl">More</summary>
+              <ul class="p-2">
+                <li><a>About</a></li>
+                <li><a>Other</a></li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+      </div>
+
+      <div class="navbar-end">
+        <a class="btn text-m bg-ghost text-xl text-white" onclick="my_modal_1.showModal()">Version - Open Beta</a> 
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-300"></span>
+        <dialog id="my_modal_1" class="modal">
+          <div class="modal-box">
+            <h3 class="text-lg font-bold ">Expect things to break :)</h3>
+            <p class="py-4"> press ESC to close</p>
+            <div class="modal-action">
+              <form method="dialog">
+                <button class="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+      </div>
+
+      <!--NAVBAR END-->
+
+    </div>
+  </div>
+  <div class="container mx-auto text-center md:pt-52">
+
+
+
+    <h1 class="text-5xl font-bold "><a class = "text-sky-500 font-bold">Dominate the Market</a><br> with factor Investment strategies </h1>
+    <p class="text-2xl py-6">
+      
+    </p>
+    <button class="btn btn-lg text-xl bg-sky-800 text-white mx-2">Launch Screener</button>
+  
+
+  </div>
+  
+    <h1 class = "md:pt-36 text-center m-5 text-3xl font-semibold">Use Popular Screens</h1>
+    <div class="container mx-auto text-center grid grid-cols-2 gap-5 min-w-fit max-w-fit">
+    <button class="stats shadow bg-green-800">
+      <div class="stat">
+        <div class="stat-title">YTD 87%</div>
+        <div class=" stat-value">Quality</div>
+        <div class="stat-desc">11% last month</div>
+      </div>
+    </button>
+    <button class="stats shadow bg-green-800">
+      <div class="stat">
+        <div class="stat-title">YTD 59%</div>
+        <div class="stat-value">Value</div>
+        <div class="stat-desc">6% last month</div>
+      </div>
+    </button>
+    <button class="stats shadow bg-green-800">
+      <div class="stat">
+        <div class="stat-title">YTD 119%</div>
+        <div class="stat-value">Momentum</div>
+        <div class="stat-desc">19% last month</div>
+      </div>
+    </button>
+    <button class="stats shadow bg-green-800">
+      <div class="stat">
+        <div class="stat-title">YTD 108%</div>
+        <div class="stat-value">Size</div>
+        <div class="stat-desc">6% last month</div>
+      </div>
+    </button>
+    <button class="stats shadow bg-green-800">
+      <div class="stat">
+        <div class="stat-title">Idk, find out lol</div>
+        <div class="stat-value">Graham Number</div>
+        <div class="stat-desc">?% last mnth</div>
+      </div>
+    </button>
+  </div>
+
+  </div>
+
+
+  <div class = "md:pt-52">
+
+<div class="flex justify-center">
+
+<img src="./q1.png" class= "border-x-2 border-slate-600 shadow-2xl">
+
+  </div></div>
+
+  <div class="hero min-h-screen"><!--
+      <div class="hero-content flex-col lg:flex-row-reverse">
+        <div class="text-center lg:text-left">
+
+          <h1 class="text-5xl font-bold">Sign Up and filter stocks now!</h1>
+          <p class="py-6">
+           
+          </p>
+        </div>
+        <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+          <form class="card-body">
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Email</span>
+              </label>
+              <input type="email" placeholder="email" class="input input-bordered" required />
+            </div>
+            <div class="form-control">
+              <label class="label">
+                <span class="label-text">Password</span>
+              </label>
+              <input type="password" placeholder="password" class="input input-bordered" required />
+              <label class="label">
+                <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
+              </label>
+            </div>
+            <div class="form-control mt-6">
+              <button class="btn btn-primary">Login</button>
+            </div>
+          </form>
+        </div>
+      </div>-->
+
+  </div>
+  <!-- FOOTER START-->
+  <div>
+    <footer class="footer bg-neutral text-neutral-content p-10">
+      <nav>
+        <p>
+          Disclaimer: The information provided on this website by LOGISCREEN is strictly for informational purposes only
+          and
+          should not be construed as an offer to sell, a solicitation to buy, or a recommendation for any security or
+          strategy.
+          LOGISCREEN INC. is not a broker or registered investment advisor,
+          and we are not registered with any financial or securities regulatory authority to give
+          financial and investment advice. While we make every effort to maintain the accuracy and timeliness of
+          information,
+          we cannot guarantee its absolute accuracy. We strongly recommend conducting personal research or consulting a
+          qualified financial advisor before making any investment decisions. Trading in financial markets involves
+          significant risk, a
+          nd past performance does not guarantee future results. LOGISCREEN INC. , its employees,
+          or its affiliates will not be held liable for any losses or damages arising from the use of any information on
+          this website.
+          Use of this website signifies your agreement to this disclaimer.
+
+        </p>
+      </nav>
+    </footer>
+  </div>
+  <!--FOOTER END-->
+</body>
+
+</html>

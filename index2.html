@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alpine.js & Tailwind CSS Fading Images</title>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link href="./output.css" rel="stylesheet">
+</head>
+<body>
+  <div x-data="carousel()" x-init="start()" class="relative h-64 w-full">
+    <template x-for="(image, index) in images" :key="index">
+      <div x-show="current === index"
+           x-transition:enter="transition duration-1000"
+           x-transition:enter-start="opacity-0"
+           x-transition:enter-end="opacity-100"
+           x-transition:leave-end="opacity-0"
+           x-transition:leave-start="opacity-100"
+           class="flex mx-auto items-center justify-center w-52">
+        <img :src="image" alt="Image Carousel" class="object-cover">
+      </div>
+    </template>
+  </div>
+
+  <script>
+    function carousel() {
+      return {
+        images: [
+          'https://www.w3schools.com/images/compatible_chrome.png',
+          'https://www.w3schools.com/images/compatible_edge.png',
+          'https://www.w3schools.com/images/compatible_firefox.png'
+        ],
+        current: 0,
+        start() {
+          this.changeImage();
+        },
+        changeImage() {
+          setInterval(() => {
+            this.current = (this.current + 1) % this.images.length;
+          }, 3000); // Change every 3 seconds
+        }
+      }
+    }
+  </script>
+</body>
+</html>
